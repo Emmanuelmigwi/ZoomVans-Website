@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { FaWhatsapp } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaWhatsapp, FaMapMarkerAlt, FaUserShield } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 
 const vans = [
@@ -12,25 +12,47 @@ export default function App() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [tripDetails, setTripDetails] = useState('');
+  const [location, setLocation] = useState('');
+
+  useEffect(() => {
+    const loadGoogleMaps = () => {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places`;
+      script.async = true;
+      script.onload = () => {
+        const autocomplete = new window.google.maps.places.Autocomplete(
+          document.getElementById('location'),
+          { types: ['geocode'] }
+        );
+        autocomplete.addListener('place_changed', () => {
+          const place = autocomplete.getPlace();
+          setLocation(place.formatted_address);
+        });
+      };
+      document.head.appendChild(script);
+    };
+    loadGoogleMaps();
+  }, []);
 
   const generateInvoice = (van) => {
     const doc = new jsPDF();
     doc.text("ZoomVans Booking Invoice", 20, 20);
     doc.text(`Name: ${name}`, 20, 30);
     doc.text(`Phone: ${phone}`, 20, 40);
-    doc.text(`Van: ${van.name}`, 20, 50);
-    doc.text(`Price: ${van.price}`, 20, 60);
+    doc.text(`Location: ${location}`, 20, 50);
+    doc.text(`Van: ${van.name}`, 20, 60);
+    doc.text(`Price: ${van.price}`, 20, 70);
     doc.save(`ZoomVans_Invoice_${van.name}.pdf`);
     alert("Invoice Generated!");
   };
 
   const handleBooking = (van) => {
-    if (!name || !phone) {
-      alert("Please enter your name and phone number first");
+    if (!name || !phone || !location) {
+      alert("Please enter your name, phone number, and pickup location");
       return;
     }
     generateInvoice(van);
-    window.location.href = `https://wa.me/254719681678?text=Hello%20ZoomVans,%20I'm%20${name}%20and%20I%20want%20to%20book%20the%20${van.name}%20for%20${tripDetails}.%20Phone:%20${phone}`;
+    window.location.href = `https://wa.me/254719681678?text=Hello%20ZoomVans,%20I'm%20${name}%20and%20I%20want%20to%20book%20the%20${van.name}%20from%20${location}%20for%20${tripDetails}.%20Phone:%20${phone}`;
   };
 
   const handlePayment = () => {
@@ -57,6 +79,13 @@ export default function App() {
           placeholder="Phone Number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          className="p-2 rounded text-black mb-4"
+          required
+        />
+        <input
+          id="location"
+          type="text"
+          placeholder="Pickup Location"
           className="p-2 rounded text-black mb-4"
           required
         />
@@ -96,6 +125,7 @@ export default function App() {
         <p>Follow Us:</p>
         <a href="https://wa.me/254719681678" target="_blank" className="text-2xl"><FaWhatsapp /></a>
         <p className="mt-4">© 2025 ZoomVans - All Rights Reserved</p>
+        <div className="text-2xl mt-2"><FaUserShield /> Admin Panel</div>
       </footer>
     </div>
   );

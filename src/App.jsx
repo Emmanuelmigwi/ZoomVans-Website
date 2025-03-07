@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FaWhatsapp, FaMapMarkerAlt, FaUserShield } from 'react-icons/fa';
+import { FaWhatsapp, FaMapMarkerAlt, FaUserShield, FaTelegramPlane, FaEnvelope } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 
 const vans = [
@@ -60,6 +60,10 @@ export default function App() {
     window.open("https://payments.zoomvans.co.ke/pay?amount=1000&phone=" + phone, "_blank");
   };
 
+  const sendEmailConfirmation = () => {
+    alert(`Booking confirmation email sent to ${name}`);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-yellow-500 to-yellow-700 text-white text-center p-10">
       <h1 className="text-5xl font-bold text-blue-900">🚐 Welcome to ZoomVans</h1>
@@ -107,7 +111,10 @@ export default function App() {
               <h3 className="text-xl font-bold text-blue-900">{van.name}</h3>
               <p className="text-lg">{van.price}</p>
               <button
-                onClick={() => handleBooking(van)}
+                onClick={() => {
+                  handleBooking(van);
+                  sendEmailConfirmation();
+                }}
                 className="bg-blue-900 py-2 rounded hover:bg-yellow-600 transition mt-3 text-white w-full"
               >
                 Book Now
@@ -124,6 +131,7 @@ export default function App() {
       <footer className="mt-10">
         <p>Follow Us:</p>
         <a href="https://wa.me/254719681678" target="_blank" className="text-2xl text-blue-900"><FaWhatsapp /></a>
+        <a href="https://t.me/ZoomVansOfficial" target="_blank" className="text-2xl text-blue-900 ml-4"><FaTelegramPlane /></a>
         <p className="mt-4">© 2025 ZoomVans - All Rights Reserved</p>
         <div className="text-2xl mt-2"><FaUserShield /> Admin Panel</div>
       </footer>

@@ -61,8 +61,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-800 to-blue-500 text-white text-center p-10">
-      <h1 className="text-5xl font-bold">🚐 Welcome to ZoomVans</h1>
+    <div className="min-h-screen bg-gradient-to-b from-yellow-500 to-yellow-700 text-white text-center p-10">
+      <h1 className="text-5xl font-bold text-blue-900">🚐 Welcome to ZoomVans</h1>
       <p className="mt-2 text-lg">Your Ride, Your Adventure, Your Way</p>
 
       <div className="mt-10">
@@ -71,7 +71,7 @@ export default function App() {
           placeholder="Your Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="p-2 rounded text-black mb-4"
+          className="p-3 rounded text-black mb-4 border-2 border-blue-900"
           required
         />
         <input
@@ -79,36 +79,36 @@ export default function App() {
           placeholder="Phone Number"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className="p-2 rounded text-black mb-4"
+          className="p-3 rounded text-black mb-4 border-2 border-blue-900"
           required
         />
         <input
           id="location"
           type="text"
           placeholder="Pickup Location"
-          className="p-2 rounded text-black mb-4"
+          className="p-3 rounded text-black mb-4 border-2 border-blue-900"
           required
         />
         <textarea
           placeholder="Trip Details (Date, Destination)"
           value={tripDetails}
           onChange={(e) => setTripDetails(e.target.value)}
-          className="p-2 rounded text-black mb-4"
+          className="p-3 rounded text-black mb-4 border-2 border-blue-900"
           required
         ></textarea>
       </div>
 
       <section className="mt-10">
-        <h2 className="text-3xl font-bold">Available Vans</h2>
+        <h2 className="text-3xl font-bold text-blue-900">Available Vans</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
           {vans.map((van) => (
             <div key={van.id} className="bg-white text-black p-4 rounded-lg shadow-lg">
               <img src={van.image} alt={van.name} className="rounded-lg mb-4" />
-              <h3 className="text-xl font-bold">{van.name}</h3>
+              <h3 className="text-xl font-bold text-blue-900">{van.name}</h3>
               <p className="text-lg">{van.price}</p>
               <button
                 onClick={() => handleBooking(van)}
-                className="bg-yellow-500 py-2 rounded hover:bg-yellow-600 transition mt-3"
+                className="bg-blue-900 py-2 rounded hover:bg-yellow-600 transition mt-3 text-white w-full"
               >
                 Book Now
               </button>
@@ -123,7 +123,7 @@ export default function App() {
 
       <footer className="mt-10">
         <p>Follow Us:</p>
-        <a href="https://wa.me/254719681678" target="_blank" className="text-2xl"><FaWhatsapp /></a>
+        <a href="https://wa.me/254719681678" target="_blank" className="text-2xl text-blue-900"><FaWhatsapp /></a>
         <p className="mt-4">© 2025 ZoomVans - All Rights Reserved</p>
         <div className="text-2xl mt-2"><FaUserShield /> Admin Panel</div>
       </footer>

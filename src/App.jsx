@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { FaWhatsapp } from 'react-icons/fa';
+import jsPDF from 'jspdf';
 
 const vans = [
   { id: 1, name: 'Luxury Van', price: 'KES 10,000', image: 'https://via.placeholder.com/300' },
@@ -7,16 +9,65 @@ const vans = [
 ];
 
 export default function App() {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [tripDetails, setTripDetails] = useState('');
 
-  const handleBooking = (vanName) => {
-    alert(`Booking Request Sent for ${vanName}`);
+  const generateInvoice = (van) => {
+    const doc = new jsPDF();
+    doc.text("ZoomVans Booking Invoice", 20, 20);
+    doc.text(`Name: ${name}`, 20, 30);
+    doc.text(`Phone: ${phone}`, 20, 40);
+    doc.text(`Van: ${van.name}`, 20, 50);
+    doc.text(`Price: ${van.price}`, 20, 60);
+    doc.save(`ZoomVans_Invoice_${van.name}.pdf`);
+    alert("Invoice Generated!");
+  };
+
+  const handleBooking = (van) => {
+    if (!name || !phone) {
+      alert("Please enter your name and phone number first");
+      return;
+    }
+    generateInvoice(van);
+    window.location.href = `https://wa.me/254719681678?text=Hello%20ZoomVans,%20I'm%20${name}%20and%20I%20want%20to%20book%20the%20${van.name}%20for%20${tripDetails}.%20Phone:%20${phone}`;
+  };
+
+  const handlePayment = () => {
+    alert("Redirecting to M-Pesa Payment Gateway...");
+    window.open("https://payments.zoomvans.co.ke/pay?amount=1000&phone=" + phone, "_blank");
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-800 to-blue-500 text-white text-center p-10">
       <h1 className="text-5xl font-bold">🚐 Welcome to ZoomVans</h1>
       <p className="mt-2 text-lg">Your Ride, Your Adventure, Your Way</p>
+
+      <div className="mt-10">
+        <input
+          type="text"
+          placeholder="Your Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="p-2 rounded text-black mb-4"
+          required
+        />
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          className="p-2 rounded text-black mb-4"
+          required
+        />
+        <textarea
+          placeholder="Trip Details (Date, Destination)"
+          value={tripDetails}
+          onChange={(e) => setTripDetails(e.target.value)}
+          className="p-2 rounded text-black mb-4"
+          required
+        ></textarea>
+      </div>
 
       <section className="mt-10">
         <h2 className="text-3xl font-bold">Available Vans</h2>
@@ -27,7 +78,7 @@ export default function App() {
               <h3 className="text-xl font-bold">{van.name}</h3>
               <p className="text-lg">{van.price}</p>
               <button
-                onClick={() => handleBooking(van.name)}
+                onClick={() => handleBooking(van)}
                 className="bg-yellow-500 py-2 rounded hover:bg-yellow-600 transition mt-3"
               >
                 Book Now
@@ -36,6 +87,16 @@ export default function App() {
           ))}
         </div>
       </section>
+
+      <button onClick={handlePayment} className="bg-green-500 py-2 rounded hover:bg-green-600 transition mt-10">
+        Pay with M-Pesa
+      </button>
+
+      <footer className="mt-10">
+        <p>Follow Us:</p>
+        <a href="https://wa.me/254719681678" target="_blank" className="text-2xl"><FaWhatsapp /></a>
+        <p className="mt-4">© 2025 ZoomVans - All Rights Reserved</p>
+      </footer>
     </div>
   );
 }

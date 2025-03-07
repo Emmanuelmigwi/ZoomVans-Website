@@ -3,7 +3,7 @@ import { FaWhatsapp, FaMapMarkerAlt, FaUserShield } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 
 const vans = [
-  { id: 1, name: 'Luxury Van', price: 'KES 10,000', image: 'https://via.placeholder.com/300' },
+  { id: 1, name: 'Luxury Van', price: 'KES 10,000', image: 'c:\Users\EMMANUEL\Downloads\Flux_Dev_a_surreal_and_vibrant_cinematic_photo_of_Design_a_mod_2.jpeg' },
   { id: 2, name: 'Party Van', price: 'KES 15,000', image: 'https://via.placeholder.com/300' },
   { id: 3, name: 'Family Van', price: 'KES 8,000', image: 'https://via.placeholder.com/300' }
 ];
